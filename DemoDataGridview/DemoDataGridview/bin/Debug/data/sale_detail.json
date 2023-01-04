@@ -1,0 +1,1 @@
+[{"InvoiceId":1,"ProductId":1,"Quantity":15,"Price":4000.0,"TotalPrice":0.0},{"InvoiceId":1,"ProductId":3,"Quantity":30,"Price":400.0,"TotalPrice":0.0},{"InvoiceId":2,"ProductId":3,"Quantity":10,"Price":400.0,"TotalPrice":0.0},{"InvoiceId":3,"ProductId":3,"Quantity":20,"Price":400.0,"TotalPrice":0.0}]
