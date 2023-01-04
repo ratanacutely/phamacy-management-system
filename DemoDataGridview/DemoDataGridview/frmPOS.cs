@@ -219,6 +219,7 @@ namespace DemoDataGridview
                 sd.ProductId = GetProductId(item.ProductName);
                 sd.Quantity = item.Quantity;
                 sd.Price = item.Price;
+                sd.TotalPrice = item.TotalPrice;
                 SaleDetails.Add(sd);
             }
             iOManager.Save(SaleDetails, saleDetailFileName);
@@ -268,9 +269,46 @@ namespace DemoDataGridview
             return -1;
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private void btnView_Click(object sender, EventArgs e)
         {
+            frmSaleView view = new frmSaleView();
+            view.pos = this;
+            view.ShowDialog();
+        }
 
+        public void RefreshPosUI(int invoiceId)
+        {
+            ClearAll();
+            var sds = SaleDetails.Where(sd => sd.InvoiceId == invoiceId);
+            if(sds !=null)
+            {
+                foreach(var sd in sds)
+                {
+                    ClsSaleItem item = new ClsSaleItem();
+                    item.ProductName = GetProductName(sd.ProductId);
+                    item.Quantity = sd.Quantity;
+                    item.Price= sd.Price;
+                    item.TotalPrice = sd.TotalPrice;
+                    item.Unit = GetProductUnit(sd.ProductId);
+                    Sales.Add(item);
+                }
+            }
+            AddToDataGridView();
+        }
+
+        private string GetProductUnit(int id)
+        {
+            ClsProduct prod = Products.Where(p => p.Id == id).FirstOrDefault();
+            if (prod != null)
+                return prod.Unit;
+            return "";
+        }
+        private string GetProductName(int id)
+        {
+            ClsProduct prod = Products.Where(p => p.Id == id).FirstOrDefault();
+            if (prod != null)
+                return prod.Name;
+            return "";
         }
     }
 }

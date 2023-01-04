@@ -37,3 +37,4 @@ C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\D
 C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.csproj.CopyComplete
 C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.exe
 C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.pdb
+C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.frmSaleView.resources
