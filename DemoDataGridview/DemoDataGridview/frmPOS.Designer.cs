@@ -29,11 +29,14 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtInvoiceId = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.cmbEmployee = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbCustomer = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblStock = new System.Windows.Forms.Label();
             this.btnClear = new System.Windows.Forms.Button();
             this.btnRemove = new System.Windows.Forms.Button();
             this.btnAdd = new System.Windows.Forms.Button();
@@ -59,9 +62,6 @@
             this.btnView = new System.Windows.Forms.Button();
             this.btnClearAll = new System.Windows.Forms.Button();
             this.btnSave = new System.Windows.Forms.Button();
-            this.txtInvoiceId = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.lblStock = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -82,6 +82,26 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(2083, 100);
             this.panel1.TabIndex = 0;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label8.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.label8.Location = new System.Drawing.Point(1661, 40);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(133, 29);
+            this.label8.TabIndex = 16;
+            this.label8.Text = "Invoice Id : ";
+            // 
+            // txtInvoiceId
+            // 
+            this.txtInvoiceId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInvoiceId.Location = new System.Drawing.Point(1853, 27);
+            this.txtInvoiceId.Name = "txtInvoiceId";
+            this.txtInvoiceId.ReadOnly = true;
+            this.txtInvoiceId.Size = new System.Drawing.Size(219, 48);
+            this.txtInvoiceId.TabIndex = 16;
             // 
             // label2
             // 
@@ -123,7 +143,7 @@
             // 
             // panel2
             // 
-            this.panel2.BackColor = System.Drawing.Color.Khaki;
+            this.panel2.BackColor = System.Drawing.Color.Orange;
             this.panel2.Controls.Add(this.lblStock);
             this.panel2.Controls.Add(this.btnClear);
             this.panel2.Controls.Add(this.btnRemove);
@@ -141,6 +161,17 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1430, 348);
             this.panel2.TabIndex = 1;
+            // 
+            // lblStock
+            // 
+            this.lblStock.AutoSize = true;
+            this.lblStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblStock.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+            this.lblStock.Location = new System.Drawing.Point(759, 138);
+            this.lblStock.Name = "lblStock";
+            this.lblStock.Size = new System.Drawing.Size(57, 63);
+            this.lblStock.TabIndex = 17;
+            this.lblStock.Text = "0";
             // 
             // btnClear
             // 
@@ -373,37 +404,6 @@
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // txtInvoiceId
-            // 
-            this.txtInvoiceId.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInvoiceId.Location = new System.Drawing.Point(1853, 27);
-            this.txtInvoiceId.Name = "txtInvoiceId";
-            this.txtInvoiceId.ReadOnly = true;
-            this.txtInvoiceId.Size = new System.Drawing.Size(219, 48);
-            this.txtInvoiceId.TabIndex = 16;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label8.ForeColor = System.Drawing.SystemColors.HotTrack;
-            this.label8.Location = new System.Drawing.Point(1661, 40);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(133, 29);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "Invoice Id : ";
-            // 
-            // lblStock
-            // 
-            this.lblStock.AutoSize = true;
-            this.lblStock.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStock.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-            this.lblStock.Location = new System.Drawing.Point(759, 138);
-            this.lblStock.Name = "lblStock";
-            this.lblStock.Size = new System.Drawing.Size(57, 63);
-            this.lblStock.TabIndex = 17;
-            this.lblStock.Text = "0";
             // 
             // frmPOS
             // 
