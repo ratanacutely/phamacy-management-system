@@ -38,3 +38,5 @@ C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\D
 C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.exe
 C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.pdb
 C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.frmSaleView.resources
+C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.frmSplash.resources
+C:\Users\KINGLY-BL\Documents\GitHub\phamacy-management-system\DemoDataGridview\DemoDataGridview\obj\Debug\DemoDataGridview.frmLogin.resources
