@@ -13,37 +13,29 @@ namespace DemoDataGridview
 {
     public partial class frmProduct : Form
     {
-        private List<ClsCategory> Categories = new List<ClsCategory>();
-        private List<ClsProduct> Products = new List<ClsProduct>();
-
-        private IOManager iOManager = new IOManager();
-        private string fileName = "category";
-        private string productFileName = "product";
-
         public frmProduct()
         {
             InitializeComponent();
         }
 
-
-
+        private POSManager mgt;
         private void frmProduct_Load(object sender, EventArgs e)
         {
-            Categories = iOManager.Load<List<ClsCategory>>(fileName);
-            if (Categories == null)
+            mgt = POSManager.GetInstance();
+
+            if (mgt.Categories == null)
             {
-                Categories = new List<ClsCategory>();
+                mgt.Categories = new List<ClsCategory>();
             }
 
-            foreach(ClsCategory category in Categories)
+            foreach(ClsCategory category in mgt.Categories)
             {
                 cmbCategory.Items.Add(category.Name);
             }
 
-            Products = iOManager.Load<List<ClsProduct>>(productFileName);
-            if(Products == null)
+            if(mgt.Products == null)
             {
-                Products = new List<ClsProduct>();
+                mgt.Products = new List<ClsProduct>();
             }
 
             Clear();
@@ -51,7 +43,7 @@ namespace DemoDataGridview
 
         private int getId()
         {
-            ClsProduct product = Products.OrderByDescending(x => x.Id).FirstOrDefault();
+            ClsProduct product = mgt.Products.OrderByDescending(x => x.Id).FirstOrDefault();
             if(product != null)
             {
                 return product.Id + 1;
@@ -74,7 +66,7 @@ namespace DemoDataGridview
             string name = txtName.Text;
             int categoryId = -1;
             string categoryName = cmbCategory.Text;
-            ClsCategory cate = Categories.Where(c => c.Name == categoryName).FirstOrDefault();
+            ClsCategory cate = mgt.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
             if(cate != null)
             {
                 categoryId = cate.Id;
@@ -84,8 +76,8 @@ namespace DemoDataGridview
             string unit = txtUnit.Text;
 
             ClsProduct product = new ClsProduct(id,name,categoryId,costPrice, sellingPrice,unit);
-            Products.Add(product);
-            iOManager.Save(Products, productFileName);
+            mgt.Products.Add(product);
+            new IOManager().Save(mgt.Products, mgt.productFileName);
             MessageBox.Show("product added!");
             Clear();
         }

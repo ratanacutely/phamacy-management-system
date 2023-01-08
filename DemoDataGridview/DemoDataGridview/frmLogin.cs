@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DemoDataGridview.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,8 +26,19 @@ namespace DemoDataGridview
         private void btnLogin_Click(object sender, EventArgs e)
         {
             Form1 main = new Form1();
-            main.Show();
-            this.Close();
+            POSManager mgt = POSManager.GetInstance();
+            string username = txtUsername.Text;
+            string password = txtPassword.Text;
+
+
+            ClsEmployee emp = mgt.Employees.Where(ee => ee.Name == username).FirstOrDefault();
+            if(emp != null)
+            {
+                POSManager.GetInstance().employee = emp;
+                main.Show();
+                this.Close();
+            }
+            
         }
     }
 }

@@ -112,6 +112,7 @@
     <Compile Include="Model\ClsSaleItem.cs" />
     <Compile Include="Model\ClsSaleSummaries.cs" />
     <Compile Include="Model\ClsStock.cs" />
+    <Compile Include="POSManager.cs" />
     <Compile Include="POSUtil.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

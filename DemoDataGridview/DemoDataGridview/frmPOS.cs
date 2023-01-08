@@ -13,29 +13,7 @@ namespace DemoDataGridview
 {
     public partial class frmPOS : Form
     {
-        //product
-        private string productFileName = "product";
-        private List<ClsProduct> Products = new List<ClsProduct>();
 
-        //customer
-        private string customerFileName = "customer";
-        private List<ClsCustomer> Customers = new List<ClsCustomer>();
-
-        //employee
-        private string employeeFileName = "employee";
-        private List<ClsEmployee> Employees = new List<ClsEmployee>();
-
-        //sale-summaries
-        private string saleSummariesFileName = "sale";
-        private List<ClsSaleSummaries> SaleSummaries= new List<ClsSaleSummaries>();
-
-        //sale-details
-        private string saleDetailFileName = "sale_detail";
-        private List<ClsSaleDetail> SaleDetails = new List<ClsSaleDetail>();
-
-        //stock
-        private string stockFileName = "stock";
-        private List<ClsStock> Stocks = new List<ClsStock>();
 
         private IOManager iOManager = new IOManager();
         private POSUtil util = new POSUtil();
@@ -44,21 +22,17 @@ namespace DemoDataGridview
             InitializeComponent();
         }
 
+
+        private POSManager mgt;
         private void frmPOS_Load(object sender, EventArgs e)
         {
-            Products = util.LoadProduct(productFileName);
-            Customers = util.LoadCustomer(customerFileName);
-            Employees = util.LoadEmployee(employeeFileName);
+            mgt = POSManager.GetInstance();
 
-            SaleSummaries = util.LoadSaleSummaries(saleSummariesFileName);
-            SaleDetails = util.LoadSaleDetails(saleDetailFileName);
-            Stocks = util.LoadStocks(stockFileName);
-
-            foreach (ClsProduct p in Products)
+            foreach (ClsProduct p in mgt.Products)
                 cmbProduct.Items.Add(p.Name);
-            foreach(ClsCustomer c in Customers)
+            foreach(ClsCustomer c in mgt.Customers)
                 cmbCustomer.Items.Add(c.Name);
-            foreach(ClsEmployee c in Employees)
+            foreach(ClsEmployee c in mgt.Employees)
                 cmbEmployee.Items.Add(c.Name);
 
             //util.InsertStockSampleData(Products, stockFileName);
@@ -68,7 +42,7 @@ namespace DemoDataGridview
 
         private int GetInvoiceId()
         {
-            ClsSaleSummaries sale = SaleSummaries.OrderByDescending(s => s.InvoiceId).FirstOrDefault();
+            ClsSaleSummaries sale = mgt.SaleSummaries.OrderByDescending(s => s.InvoiceId).FirstOrDefault();
             if(sale != null)
                 return sale.InvoiceId + 1;
             return 1;
@@ -76,7 +50,7 @@ namespace DemoDataGridview
         private void cmbProduct_SelectedIndexChanged(object sender, EventArgs e)
         {
             string proName = cmbProduct.Text;
-            ClsProduct prod = Products.Where(p => p.Name == proName).FirstOrDefault();
+            ClsProduct prod = mgt.Products.Where(p => p.Name == proName).FirstOrDefault();
             if (prod != null)
             {
                 int defaultUnit = 1;
@@ -85,7 +59,7 @@ namespace DemoDataGridview
                 txtQuantity.Text = defaultUnit.ToString();
                 txtTotalPrice.Text = (prod.SellingPrice * defaultUnit).ToString();
 
-                ClsStock stock = Stocks.Where(s => s.ProductId == prod.Id).FirstOrDefault();
+                ClsStock stock = mgt.Stocks.Where(s => s.ProductId == prod.Id).FirstOrDefault();
                 if(stock != null)
                     lblStock.Text = stock.Quantity.ToString();
             }
@@ -98,7 +72,7 @@ namespace DemoDataGridview
 
             int qty = int.Parse(txtQuantity.Text);
             string proName = cmbProduct.Text;
-            ClsProduct prod = Products.Where(p => p.Name == proName).FirstOrDefault();
+            ClsProduct prod = mgt.Products.Where(p => p.Name == proName).FirstOrDefault();
             if (prod != null)
             {
                 double totalPrice = qty * prod.SellingPrice;
@@ -125,6 +99,12 @@ namespace DemoDataGridview
         private void btnAdd_Click(object sender, EventArgs e)
         {
             ClsSaleItem item = new ClsSaleItem();
+
+            //if(!new ValidSaleItem().isValid(cmbProduct.Text,txtQuantity.Text))
+            //{
+            //    return;
+            //}
+
             item.ProductName = cmbProduct.Text;
             item.Price = double.Parse(txtCostPrice.Text);
             item.Quantity = int.Parse(txtQuantity.Text);
@@ -183,7 +163,12 @@ namespace DemoDataGridview
         private void ClearAll()
         {
             cmbCustomer.Text = "";
-            cmbEmployee.Text = "";
+            //cmbEmployee.Text = "";
+            if(mgt.employee != null)
+            {
+                cmbEmployee.Text = mgt.employee.Name;
+            }
+
             Clear();
             dgvItem.Rows.Clear();
             Sales.Clear();
@@ -208,8 +193,8 @@ namespace DemoDataGridview
             sale.EmployeeId= GetEmployeeId();
             sale.CustomerId= GetCustomerId();
             sale.TotalPrice = GetTotalPrice();
-            SaleSummaries.Add(sale);
-            iOManager.Save(SaleSummaries, saleSummariesFileName);
+            mgt.SaleSummaries.Add(sale);
+            iOManager.Save(mgt.SaleSummaries, mgt.saleSummariesFileName);
 
             //save sale detail
             foreach(ClsSaleItem item in Sales)
@@ -220,19 +205,19 @@ namespace DemoDataGridview
                 sd.Quantity = item.Quantity;
                 sd.Price = item.Price;
                 sd.TotalPrice = item.TotalPrice;
-                SaleDetails.Add(sd);
+                mgt.SaleDetails.Add(sd);
             }
-            iOManager.Save(SaleDetails, saleDetailFileName);
+            iOManager.Save(mgt.SaleDetails, mgt.saleDetailFileName);
 
             //update stock
             foreach(ClsSaleItem item in Sales)
             {
                 int productId = GetProductId(item.ProductName);
-                ClsStock stock = Stocks.Where(s => s.ProductId == productId).FirstOrDefault();
+                ClsStock stock = mgt.Stocks.Where(s => s.ProductId == productId).FirstOrDefault();
                 if (stock != null)
                     stock.Quantity -= item.Quantity;
             }
-            iOManager.Save(Stocks, stockFileName);
+            iOManager.Save(mgt.Stocks, mgt.stockFileName);
 
             MessageBox.Show("saved!");
             ClearAll();
@@ -240,7 +225,7 @@ namespace DemoDataGridview
 
         private int GetProductId(string name)
         {
-            ClsProduct prod = Products.Where( p => p.Name == name).FirstOrDefault();
+            ClsProduct prod = mgt.Products.Where( p => p.Name == name).FirstOrDefault();
             if (prod != null)
                 return prod.Id;
             return -1;
@@ -256,14 +241,14 @@ namespace DemoDataGridview
         }
         private int GetEmployeeId()
         {
-            ClsEmployee emp = Employees.Where(e => e.Name == cmbEmployee.Text).FirstOrDefault();
+            ClsEmployee emp = mgt.Employees.Where(e => e.Name == cmbEmployee.Text).FirstOrDefault();
             if(emp != null)
                 return emp.Id;
             return -1;
         }
         private int GetCustomerId()
         {
-            ClsCustomer cus = Customers.Where(c => c.Name== cmbCustomer.Text).FirstOrDefault();
+            ClsCustomer cus = mgt.Customers.Where(c => c.Name== cmbCustomer.Text).FirstOrDefault();
             if (cus != null)
                 return cus.ID;
             return -1;
@@ -279,7 +264,7 @@ namespace DemoDataGridview
         public void RefreshPosUI(int invoiceId)
         {
             ClearAll();
-            var sds = SaleDetails.Where(sd => sd.InvoiceId == invoiceId);
+            var sds = mgt.SaleDetails.Where(sd => sd.InvoiceId == invoiceId);
             if(sds !=null)
             {
                 foreach(var sd in sds)
@@ -298,14 +283,14 @@ namespace DemoDataGridview
 
         private string GetProductUnit(int id)
         {
-            ClsProduct prod = Products.Where(p => p.Id == id).FirstOrDefault();
+            ClsProduct prod = mgt.Products.Where(p => p.Id == id).FirstOrDefault();
             if (prod != null)
                 return prod.Unit;
             return "";
         }
         private string GetProductName(int id)
         {
-            ClsProduct prod = Products.Where(p => p.Id == id).FirstOrDefault();
+            ClsProduct prod = mgt.Products.Where(p => p.Id == id).FirstOrDefault();
             if (prod != null)
                 return prod.Name;
             return "";
