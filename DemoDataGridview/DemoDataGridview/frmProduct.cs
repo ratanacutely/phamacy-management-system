@@ -66,7 +66,7 @@ namespace DemoDataGridview
             string name = txtName.Text;
             int categoryId = -1;
             string categoryName = cmbCategory.Text;
-            ClsCategory cate = mgt.Categories.Where(c => c.Name == categoryName).FirstOrDefault();
+            ClsCategory cate = mgt.Categories.Where(c => c.Name.Trim() == categoryName.Trim()).FirstOrDefault();
             if(cate != null)
             {
                 categoryId = cate.Id;

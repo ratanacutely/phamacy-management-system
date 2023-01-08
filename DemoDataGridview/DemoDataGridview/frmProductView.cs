@@ -13,12 +13,6 @@ namespace DemoDataGridview
 {
     public partial class frmProductView : Form
     {
-        private List<ClsCategory> Categories = new List<ClsCategory>();
-        private List<ClsProduct> Products = new List<ClsProduct>();
-
-        private IOManager iOManager = new IOManager();
-        private string fileName = "category";
-        private string productFileName = "product";
         public frmProductView()
         {
             InitializeComponent();
@@ -26,30 +20,20 @@ namespace DemoDataGridview
 
         private void frmProductView_Load(object sender, EventArgs e)
         {
-            Categories = iOManager.Load<List<ClsCategory>>(fileName);
-            if(Categories == null)
-            {
-                Categories = new List<ClsCategory>();
-            }
-
-            Products = iOManager.Load<List<ClsProduct>>(productFileName);
-            if(Products != null)
+            POSManager mgt = POSManager.GetInstance();
+            if(mgt.Products != null)
             {
                 //dgProduct.DataSource = Products;
-                foreach(ClsProduct p in Products)
+                foreach(ClsProduct p in mgt.Products)
                 {
                     string categoryName = "No name";
-                    ClsCategory cate = Categories.Where(c => c.Id == p.Id).FirstOrDefault();
+                    ClsCategory cate = mgt.Categories.Where(c => c.Id == p.CategoryId).FirstOrDefault();
                     if(cate != null)
                     {
                         categoryName = cate.Name;
                     }
                     dgProduct.Rows.Add(p.Id, p.Name, categoryName, p.CostPrice, p.SellingPrice, p.Unit);
                 }
-            }
-            else
-            {
-                Products = new List<ClsProduct>();
             }
         }
     }
